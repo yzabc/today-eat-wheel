@@ -1,0 +1,33 @@
+:root {
+  --bg: #f5f5f7;
+  --card: rgba(255, 255, 255, 0.82);
+  --text: #111111;
+  --subtext: #6e6e73;
+  --line: rgba(60, 60, 67, 0.12);
+  --accent: #111111;
+  --green: #34c759;
+  --red: #ff3b30;
+}
+
+page {
+  min-height: 100%;
+  background: linear-gradient(180deg, #f8f8fa 0%, #efeff4 100%);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Helvetica Neue', sans-serif;
+}
+
+view, text, button, input, canvas {
+  box-sizing: border-box;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  line-height: 1;
+}
+
+button::after {
+  border: none;
+}

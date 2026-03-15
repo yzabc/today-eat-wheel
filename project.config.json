@@ -1,0 +1,35 @@
+{
+  "description": "今天吃啥大转盘微信小程序",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "bundle": false,
+    "userConfirmedBundleSwitch": false,
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": false,
+    "compileHotReLoad": true,
+    "coverView": true,
+    "preloadBackgroundData": false,
+    "ignoreUploadUnusedFiles": true,
+    "checkInvalidKey": true,
+    "uploadWithSourceMap": true,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.6.5",
+  "appid": "touristappid",
+  "projectname": "lunch-wheel-miniapp",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {}
+}

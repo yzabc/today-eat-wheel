@@ -1,0 +1,125 @@
+<view class="page {{editPanelVisible ? 'page-lock' : ''}}">
+  <view class="bg-orb orb-1"></view>
+  <view class="bg-orb orb-2"></view>
+
+  <view class="hero-card glass">
+    <view class="nav-row">
+      <view class="title-wrap">
+        <text class="eyebrow">今天吃啥</text>
+        <text class="title">{{currentMenu.name}}</text>
+        <text class="subtitle">{{wheelItems.length}} 个候选 · 点一下就决定</text>
+      </view>
+      <button class="icon-btn" bindtap="openEditor">
+        <text class="icon-btn-text">编辑</text>
+      </button>
+    </view>
+
+    <view class="wheel-zone">
+      <view class="pointer-wrap">
+        <view class="pointer"></view>
+      </view>
+      <view class="wheel-shell shadow">
+        <canvas
+          type="2d"
+          id="wheelCanvas"
+          canvas-id="wheelCanvas"
+          class="wheel-canvas {{spinning ? 'wheel-animating' : ''}}"
+          style="transform: rotate({{wheelRotation}}deg); transition: transform {{spinDuration}}ms cubic-bezier(0.12, 0.82, 0.18, 1);"
+        ></canvas>
+        <view class="wheel-center">
+          <text class="wheel-center-title">开始</text>
+          <text class="wheel-center-sub">Spin</text>
+        </view>
+      </view>
+    </view>
+
+    <button class="primary-btn {{spinning ? 'disabled' : ''}}" bindtap="startSpin" disabled="{{spinning}}">
+      <text>{{spinning ? '抽取中...' : '开始转盘'}}</text>
+    </button>
+
+    <view class="result-card {{lastResult ? 'show' : ''}}">
+      <text class="result-label">这顿吃</text>
+      <text class="result-value">{{lastResult || '还没转'}}</text>
+    </view>
+  </view>
+
+  <view class="menu-preview glass">
+    <view class="preview-head">
+      <text class="preview-title">当前菜单</text>
+      <text class="preview-meta">{{currentMenu.name}} · {{wheelItems.length}} 项</text>
+    </view>
+    <view class="chip-list">
+      <block wx:for="{{wheelItems}}" wx:key="*this">
+        <view class="food-chip">{{item}}</view>
+      </block>
+    </view>
+  </view>
+
+  <view class="mask {{editPanelVisible ? 'show' : ''}}" catchtouchmove="noop" bindtap="closeEditor"></view>
+
+  <view
+    class="editor-panel {{editPanelVisible ? 'show' : ''}}"
+    catchtouchmove="noop"
+    bindtouchstart="handlePanelTouchStart"
+    bindtouchmove="handlePanelTouchMove"
+    bindtouchend="handlePanelTouchEnd"
+  >
+    <view class="editor-safe-top" style="height: {{statusBarHeight}}px"></view>
+    <view class="editor-nav">
+      <view class="nav-back" bindtap="closeEditor">
+        <text class="back-arrow">‹</text>
+        <text class="back-text">返回</text>
+      </view>
+      <text class="editor-title">编辑菜单</text>
+      <view class="nav-placeholder"></view>
+    </view>
+
+    <view class="segment-row glass">
+      <block wx:for="{{menuTabs}}" wx:key="key">
+        <view class="segment-item {{editingMenuKey === item.key ? 'active' : ''}}" data-key="{{item.key}}" bindtap="switchEditingMenu">
+          <text>{{item.name}}</text>
+        </view>
+      </block>
+    </view>
+
+    <view class="editor-content">
+      <view class="editor-card glass">
+        <view class="card-label">菜单名称</view>
+        <input class="name-input" value="{{editingMenu.name}}" placeholder="请输入菜单名" data-field="name" bindinput="handleMenuNameInput" />
+      </view>
+
+      <view class="editor-card glass">
+        <view class="row-between">
+          <view>
+            <view class="card-label">菜品列表</view>
+            <text class="card-hint">轻点下方即可编辑，删除后自动保存</text>
+          </view>
+          <button class="ghost-btn" bindtap="useCurrentEditingMenu">设为当前</button>
+        </view>
+
+        <view class="food-list">
+          <block wx:for="{{editingMenu.items}}" wx:key="index">
+            <view class="food-row">
+              <input class="food-input" value="{{item}}" data-index="{{index}}" bindinput="handleFoodInput" placeholder="输入菜品名称" />
+              <button class="delete-btn" data-index="{{index}}" bindtap="removeFoodItem">删除</button>
+            </view>
+          </block>
+        </view>
+
+        <button class="add-btn" bindtap="addFoodItem">+ 新增菜品</button>
+      </view>
+
+      <view class="editor-card glass compact-card">
+        <view class="row-between">
+          <view>
+            <view class="card-label">当前使用</view>
+            <text class="card-hint">首页转盘会读取当前启用菜单</text>
+          </view>
+          <view class="toggle-pill {{currentMenuKey === editingMenuKey ? 'active' : ''}}">
+            <text>{{currentMenuKey === editingMenuKey ? '已启用' : '未启用'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
